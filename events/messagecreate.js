@@ -1,8 +1,16 @@
+const antiSpam = require("../systems/automod/antiSpam");
+const antiInvite = require("../systems/automod/antiInvite");
+const badWords = require("../systems/automod/badWords");
+
 module.exports = {
   name: "messageCreate",
   execute(message, client) {
 
     if (message.author.bot) return;
+
+    antiSpam(message);
+    antiInvite(message);
+    badWords(message);
 
     const prefix = "!";
 
