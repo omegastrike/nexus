@@ -1,5 +1,9 @@
 require("dotenv").config();
+
 const { Client, GatewayIntentBits, Collection } = require("discord.js");
+
+const commandHandler = require("./handlers/commandHandler");
+const eventHandler = require("./handlers/eventHandler");
 
 const client = new Client({
   intents: [
@@ -11,6 +15,10 @@ const client = new Client({
 });
 
 client.commands = new Collection();
+
+// Load handlers AFTER client is created
+eventHandler(client);
+commandHandler(client);
 
 client.once("ready", () => {
   console.log(`Bot online: ${client.user.tag}`);
