@@ -1,3 +1,9 @@
 module.exports = {
-  logChannel: "YOUR_CHANNEL_ID"
+
+  prefix: "!",
+
+  logChannel: "YOUR_LOG_CHANNEL_ID",
+
+  botName: "Nexus Moderation Bot",
+
 };
