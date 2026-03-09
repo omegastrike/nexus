@@ -4,6 +4,9 @@ const { Client, GatewayIntentBits, Collection } = require("discord.js");
 
 const commandHandler = require("./handlers/commandHandler");
 const eventHandler = require("./handlers/eventHandler");
+const slashHandler = require("./handlers/slashCommandHandler");
+
+const connectDB = require("./database/connect"); 
 
 const client = new Client({
   intents: [
@@ -19,9 +22,12 @@ client.commands = new Collection();
 // Load handlers AFTER client is created
 eventHandler(client);
 commandHandler(client);
+slashHandler(client);
 
 client.once("ready", () => {
   console.log(`Bot online: ${client.user.tag}`);
 });
+
+connectDB();
 
 client.login(process.env.TOKEN);
