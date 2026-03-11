@@ -1,14 +1,22 @@
-const antiRaid = require("../systems/protection/antiRaid");
-const memberJoinLog = require("../systems/logs/memberJoin");
+const GuildConfig = require("../database/models/guildConfig");
 
 module.exports = {
   name: "guildMemberAdd",
 
   async execute(member) {
 
-    memberJoinLog(member);
+    const config = await GuildConfig.findOne({
+      guildId: member.guild.id
+    });
 
-    antiRaid(member);
+    if (!config || !config.welcomeChannel) return;
+
+    const channel = member.guild.channels.cache.get(config.welcomeChannel);
+
+    if (!channel) return;
+
+    channel.send(`👋 Welcome ${member} to the server!`);
 
   }
+
 };
