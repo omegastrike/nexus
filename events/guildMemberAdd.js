@@ -1,9 +1,14 @@
-const memberJoin = require("../systems/logs/memberJoin");
+const antiRaid = require("../systems/protection/antiRaid");
+const memberJoinLog = require("../systems/logs/memberJoin");
 
 module.exports = {
   name: "guildMemberAdd",
 
-  execute(member) {
-    memberJoin(member);
+  async execute(member) {
+
+    memberJoinLog(member);
+
+    antiRaid(member);
+
   }
 };
