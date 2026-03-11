@@ -1,6 +1,7 @@
 const antiSpam = require("../systems/automod/antiSpam");
 const antiInvite = require("../systems/automod/antiInvite");
 const badWords = require("../systems/automod/badWords");
+const xpSystem = require("../systems/levels/xpSystem");
 
 module.exports = {
   name: "messageCreate",
@@ -11,6 +12,7 @@ module.exports = {
     antiSpam(message);
     antiInvite(message);
     badWords(message);
+    xpSystem(message);
 
     const prefix = "!";
 
