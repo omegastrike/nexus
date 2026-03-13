@@ -4,9 +4,9 @@ module.exports = (client) => {
 
   const nodes = [
     {
-      name: "serenetia",
-      url: "lavalinkv4.serenetia.com:443",
-      auth: "https://seretia.link/discord",
+      name: "Jirayu",
+      url: "lavalink.jirayu.net:443",
+      auth: "youshallnotpass",
       secure: true
     }
   ];
