@@ -7,7 +7,7 @@ const eventHandler = require("./handlers/eventHandler");
 const slashHandler = require("./handlers/slashCommandHandler");
 const giveawayManager = require("./systems/giveaways/giveawayManager");
 
-const connectDB = require("./database/connect"); 
+const connectDB = require("./database/connect");
 
 const client = new Client({
   intents: [
@@ -20,17 +20,37 @@ const client = new Client({
 
 client.commands = new Collection();
 
-// Load handlers AFTER client is created
+
 eventHandler(client);
 commandHandler(client);
 slashHandler(client);
 
-client.once("ready", () => {
+
+client.once("clientReady", async () => {
+
   console.log(`Bot online: ${client.user.tag}`);
 
+  // Start giveaway manager
   giveawayManager(client);
+
 });
 
-connectDB().then(() => {
-  client.login(process.env.TOKEN);
-});
+
+async function startBot() {
+
+  try {
+
+    await connectDB();
+    console.log("MongoDB connected");
+
+    await client.login(process.env.TOKEN);
+
+  } catch (error) {
+
+    console.error("Startup error:", error);
+
+  }
+
+}
+
+startBot();
