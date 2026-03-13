@@ -6,13 +6,16 @@ const xpSystem = require("../systems/levels/xpSystem");
 
 module.exports = {
   name: "messageCreate",
-  execute(message, client) {
+  async execute(message, client) {
 
     if (message.author.bot) return;
 
+    // Automod systems
     antiSpam(message);
     antiInvite(message);
     badWords(message);
+
+    // XP system
     xpSystem(message);
 
     const prefix = "!";
@@ -22,10 +25,21 @@ module.exports = {
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
 
+
     const command = client.commands.get(commandName);
 
-    if (!command) return;
+    if (command) {
+      return command.execute(message, args);
+    }
 
-    command.execute(message, args);
+    const customCommand = await CustomCommand.findOne({
+      guildId: message.guild.id,
+      name: commandName
+    });
+
+    if (customCommand) {
+      message.channel.send(customCommand.response);
+    }
+
   }
 };
