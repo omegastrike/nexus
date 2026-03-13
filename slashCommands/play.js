@@ -21,7 +21,7 @@ module.exports = {
 
     const query = interaction.options.getString("query");
 
-    const node = interaction.client.lavalink.nodes.first();
+    const node = [...interaction.client.lavalink.nodes.values()][0];
 
     const result = await node.rest.resolve(query);
 
