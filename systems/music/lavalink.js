@@ -4,10 +4,10 @@ module.exports = (client) => {
 
   const nodes = [
     {
-      name: "Jirayu",
-      url: "lavalink.jirayu.net:443",
+      name: "jirayu",
+      url: "lavalink.jirayu.net:13592",
       auth: "youshallnotpass",
-      secure: true
+      secure: false
     }
   ];
 
