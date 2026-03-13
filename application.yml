@@ -1,0 +1,7 @@
+server:
+  port: 4433
+
+lavalink:
+  server: lavalinkv4.serenetia.com
+  password: "https://seretia.link/discord"
+  Secure : true
