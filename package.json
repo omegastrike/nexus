@@ -22,6 +22,7 @@
     "mongodb": "^7.1.0",
     "mongoose": "^9.2.4",
     "play-dl": "^1.9.7",
+    "shoukaku": "^4.3.0",
     "ytdl-core": "^4.11.5"
   }
 }
