@@ -1,14 +1,13 @@
 const { SlashCommandBuilder } = require("discord.js");
-const play = require("play-dl");
-const { queues, playSong, joinVoiceChannel, createAudioPlayer } = require("../systems/music/musicPlayer");
+const { getQueue, createQueue } = require("../systems/music/musicManager");
 
 module.exports = {
 
   data: new SlashCommandBuilder()
     .setName("play")
-    .setDescription("Play music from YouTube")
+    .setDescription("Play a song")
     .addStringOption(option =>
-      option.setName("song")
+      option.setName("query")
         .setDescription("Song name or URL")
         .setRequired(true)
     ),
@@ -17,50 +16,51 @@ module.exports = {
 
     const voiceChannel = interaction.member.voice.channel;
 
-    if (!voiceChannel) {
+    if (!voiceChannel)
       return interaction.reply("Join a voice channel first.");
-    }
 
-    const query = interaction.options.getString("song");
+    const query = interaction.options.getString("query");
 
-    const result = await play.search(query, { limit: 1 });
+    const node = interaction.client.lavalink.getNode();
 
-    const song = {
-      title: result[0].title,
-      url: result[0].url
-    };
+    const result = await node.rest.resolve(query);
 
-    let queue = queues.get(interaction.guild.id);
+    if (!result.tracks.length)
+      return interaction.reply("No results found.");
+
+    const track = result.tracks[0];
+
+    let queue = getQueue(interaction.guild.id);
 
     if (!queue) {
 
-      const connection = joinVoiceChannel({
-        channelId: voiceChannel.id,
+      queue = createQueue(interaction.guild.id);
+
+      const player = await node.joinChannel({
         guildId: interaction.guild.id,
-        adapterCreator: interaction.guild.voiceAdapterCreator
+        channelId: voiceChannel.id,
+        shardId: 0
       });
 
-      const player = createAudioPlayer();
+      queue.player = player;
 
-      queue = {
-        connection,
-        player,
-        songs: []
-      };
+      player.on("end", () => {
+        queue.songs.shift();
 
-      queues.set(interaction.guild.id, queue);
-
-      connection.subscribe(player);
+        if (queue.songs.length) {
+          player.playTrack({ track: queue.songs[0].encoded });
+        }
+      });
 
     }
 
-    queue.songs.push(song);
+    queue.songs.push(track);
 
     if (queue.songs.length === 1) {
-      playSong(interaction.guild, queue.songs[0]);
+      await queue.player.playTrack({ track: track.encoded });
     }
 
-    interaction.reply(`🎵 Playing **${song.title}**`);
+    interaction.reply(`🎵 Now playing **${track.info.title}**`);
 
   }
 
