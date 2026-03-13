@@ -1,11 +1,10 @@
-const { Shoukaku } = require("shoukaku");
-const { Connectors } = require("shoukaku");
+const { Shoukaku, Connectors } = require("shoukaku");
 
 module.exports = (client) => {
 
   const nodes = [
     {
-      name: "Local",
+      name: "lavalink",
       url: "localhost:2333",
       auth: "youshallnotpass"
     }
