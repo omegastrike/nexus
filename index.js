@@ -5,6 +5,7 @@ const { Client, GatewayIntentBits, Collection } = require("discord.js");
 const commandHandler = require("./handlers/commandHandler");
 const eventHandler = require("./handlers/eventHandler");
 const slashHandler = require("./handlers/slashCommandHandler");
+const giveawayManager = require("./systems/giveaways/giveawayManager");
 
 const connectDB = require("./database/connect"); 
 
@@ -26,8 +27,10 @@ slashHandler(client);
 
 client.once("ready", () => {
   console.log(`Bot online: ${client.user.tag}`);
+
+  giveawayManager(client);
 });
 
-connectDB();
-
-client.login(process.env.TOKEN);
+connectDB().then(() => {
+  client.login(process.env.TOKEN);
+});
