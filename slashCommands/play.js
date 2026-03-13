@@ -14,19 +14,34 @@ module.exports = {
 
   async execute(interaction) {
 
+    await interaction.deferReply();
+
     const voiceChannel = interaction.member.voice.channel;
 
-    if (!voiceChannel)
-      return interaction.reply("Join a voice channel first.");
-
-    const query = interaction.options.getString("query");
+    if (!voiceChannel) {
+      return interaction.editReply("❌ Join a voice channel first.");
+    }
 
     const node = [...interaction.client.lavalink.nodes.values()][0];
 
-    const result = await node.rest.resolve(query);
+    if (!node) {
+      return interaction.editReply("❌ Lavalink node not connected.");
+    }
 
-    if (!result.tracks.length)
-      return interaction.reply("No results found.");
+    const query = interaction.options.getString("query");
+
+    let result;
+
+    try {
+      result = await node.rest.resolve(query);
+    } catch (error) {
+      console.error(error);
+      return interaction.editReply("❌ Failed to search song.");
+    }
+
+    if (!result || !result.tracks.length) {
+      return interaction.editReply("❌ No results found.");
+    }
 
     const track = result.tracks[0];
 
@@ -45,11 +60,13 @@ module.exports = {
       queue.player = player;
 
       player.on("end", () => {
+
         queue.songs.shift();
 
         if (queue.songs.length) {
           player.playTrack({ track: queue.songs[0].encoded });
         }
+
       });
 
     }
@@ -60,7 +77,7 @@ module.exports = {
       await queue.player.playTrack({ track: track.encoded });
     }
 
-    interaction.reply(`🎵 Now playing **${track.info.title}**`);
+    return interaction.editReply(`🎵 Now playing **${track.info.title}**`);
 
   }
 
