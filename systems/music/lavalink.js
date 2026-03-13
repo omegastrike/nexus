@@ -4,9 +4,10 @@ module.exports = (client) => {
 
   const nodes = [
     {
-      name: "lavalink",
-      url: "localhost:2333",
-      auth: "youshallnotpass"
+      name: "serenetia",
+      url: "lavalinkv4.serenetia.com:443",
+      auth: "https://seretia.link/discord",
+      secure: true
     }
   ];
 
@@ -15,6 +16,13 @@ module.exports = (client) => {
     nodes
   );
 
-  return shoukaku;
+  shoukaku.on("ready", (name) => {
+    console.log(`✅ Lavalink node ${name} connected`);
+  });
 
+  shoukaku.on("error", (name, error) => {
+    console.error(`❌ Lavalink ${name} error:`, error);
+  });
+
+  return shoukaku;
 };
