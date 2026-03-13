@@ -1,3 +1,4 @@
+const CustomCommand = require("../database/models/customCommandModel");
 const antiSpam = require("../systems/automod/antiSpam");
 const antiInvite = require("../systems/automod/antiInvite");
 const badWords = require("../systems/automod/badWords");
