@@ -6,6 +6,7 @@ const commandHandler = require("./handlers/commandHandler");
 const eventHandler = require("./handlers/eventHandler");
 const slashHandler = require("./handlers/slashCommandHandler");
 const giveawayManager = require("./systems/giveaways/giveawayManager");
+const createLavalink = require("./systems/music/lavalink");
 
 const connectDB = require("./database/connect");
 
@@ -29,6 +30,8 @@ slashHandler(client);
 client.once("clientReady", async () => {
 
   console.log(`Bot online: ${client.user.tag}`);
+
+  client.lavalink = createLavalink(client);
 
   // Start giveaway manager
   giveawayManager(client);
