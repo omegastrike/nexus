@@ -1,5 +1,5 @@
 server:
-  port: 4433
+  port: 443
 
 lavalink:
   server: lavalinkv4.serenetia.com
