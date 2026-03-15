@@ -82,6 +82,13 @@ module.exports = {
       await queue.player.playTrack({ track: track.encoded });
     }
 
+    if (!userChannel || userChannel.id !== botChannel?.id) {
+  return interaction.reply({
+    content: "❌ You must be in the same voice channel as the bot.",
+    ephemeral: true
+  });
+}
+
     // return interaction.editReply(`🎵 Now playing **${track.info.title}**`);
 
     interaction.editReply({
