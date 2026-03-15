@@ -78,8 +78,12 @@ module.exports = {
       await queue.player.playTrack({ track: track.encoded });
     }
 
-    return interaction.editReply(`🎵 Now playing **${track.info.title}**`);
+    // return interaction.editReply(`🎵 Now playing **${track.info.title}**`);
 
+    interaction.editReply({
+  content: `🎵 Now playing **${track.info.title}**`,
+  components: [createMusicControls()]
+});
   }
 
 };
