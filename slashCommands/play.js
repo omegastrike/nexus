@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("discord.js");
 const { getQueue, createQueue } = require("../systems/music/musicManager");
+const { createMusicControls } = require("../systems/music/musicControls");
 
 module.exports = {
 
