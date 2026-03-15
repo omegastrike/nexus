@@ -5,18 +5,18 @@ module.exports = {
 
   data: new SlashCommandBuilder()
     .setName("skip")
-    .setDescription("Skip current song"),
+    .setDescription("Skip the current song"),
 
   async execute(interaction) {
 
     const queue = getQueue(interaction.guild.id);
 
-    if (!queue)
-      return interaction.reply("Nothing playing.");
+    if (!queue || !queue.player)
+      return interaction.reply("❌ Nothing is playing.");
 
     queue.player.stopTrack();
 
-    interaction.reply("⏭ Skipped song");
+    interaction.reply("⏭ Skipped the song.");
 
   }
 
