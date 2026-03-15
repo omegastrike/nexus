@@ -4,8 +4,8 @@ module.exports = (client) => {
 
   const nodes = [
     {
-      name: "jirayu",
-      url: "lavalink.jirayu.net:13592",
+      name: "nexus",
+      url: "93.177.64.145:4827",
       auth: "youshallnotpass",
       secure: false
     }
