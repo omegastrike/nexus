@@ -2,6 +2,10 @@ const { SlashCommandBuilder } = require("discord.js");
 const { getQueue, createQueue } = require("../systems/music/musicManager");
 const { createMusicControls } = require("../systems/music/musicControls");
 
+const botChannel = interaction.guild.members.me.voice.channel;
+const userChannel = interaction.member.voice.channel;
+
+
 module.exports = {
 
   data: new SlashCommandBuilder()
