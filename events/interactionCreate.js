@@ -1,3 +1,5 @@
+const { getQueue } = require("../systems/music/musicManager");
+
 module.exports = {
   name: "interactionCreate",
 
@@ -41,6 +43,8 @@ module.exports = {
 
     if (interaction.isButton()) {
 
+      /* ---------- Ticket Button ---------- */
+
       if (interaction.customId === "create_ticket") {
 
         try {
@@ -81,6 +85,62 @@ module.exports = {
           }
 
         }
+
+      }
+
+      /* ---------- Music Buttons ---------- */
+
+      const queue = getQueue(interaction.guild.id);
+
+      if (!queue || !queue.player) {
+        return interaction.reply({
+          content: "❌ Nothing is playing.",
+          ephemeral: true
+        });
+      }
+
+      if (interaction.customId === "music_pause") {
+
+        queue.player.setPaused(true);
+
+        return interaction.reply({
+          content: "⏸ Music paused.",
+          ephemeral: true
+        });
+
+      }
+
+      if (interaction.customId === "music_skip") {
+
+        queue.player.stopTrack();
+
+        return interaction.reply({
+          content: "⏭ Song skipped.",
+          ephemeral: true
+        });
+
+      }
+
+      if (interaction.customId === "music_stop") {
+
+        queue.player.stopTrack();
+        queue.songs = [];
+
+        return interaction.reply({
+          content: "⏹ Music stopped.",
+          ephemeral: true
+        });
+
+      }
+
+      if (interaction.customId === "music_loop") {
+
+        queue.loop = !queue.loop;
+
+        return interaction.reply({
+          content: queue.loop ? "🔁 Loop enabled." : "➡️ Loop disabled.",
+          ephemeral: true
+        });
 
       }
 
