@@ -5,9 +5,9 @@ module.exports = (client) => {
   const nodes = [
     {
       name: "nexus",
-      url: "93.177.64.145:4827",
-      auth: "youshallnotpass",
-      secure: false
+      url: "lavalinkv4.serenetia.com:443",
+      auth: "https://seretia.link/discord",
+      secure: true
     }
   ];
 
