@@ -2,10 +2,6 @@ const { SlashCommandBuilder } = require("discord.js");
 const { getQueue, createQueue } = require("../systems/music/musicManager");
 const { createMusicControls } = require("../systems/music/musicControls");
 
-const botChannel = interaction.guild.members.me.voice.channel;
-const userChannel = interaction.member.voice.channel;
-
-
 module.exports = {
 
   data: new SlashCommandBuilder()
@@ -22,9 +18,14 @@ module.exports = {
     await interaction.deferReply();
 
     const voiceChannel = interaction.member.voice.channel;
+    const botChannel = interaction.guild.members.me.voice.channel;
 
     if (!voiceChannel) {
       return interaction.editReply("❌ Join a voice channel first.");
+    }
+
+    if (botChannel && voiceChannel.id !== botChannel.id) {
+      return interaction.editReply("❌ You must be in the same voice channel as the bot.");
     }
 
     const node = [...interaction.client.lavalink.nodes.values()][0];
@@ -35,14 +36,7 @@ module.exports = {
 
     const query = interaction.options.getString("query");
 
-    let result;
-
-    try {
-      result = await node.rest.resolve(query);
-    } catch (error) {
-      console.error(error);
-      return interaction.editReply("❌ Failed to search song.");
-    }
+    const result = await node.rest.resolve(`ytsearch:${query}`);
 
     if (!result || !result.tracks.length) {
       return interaction.editReply("❌ No results found.");
@@ -66,7 +60,7 @@ module.exports = {
 
       player.on("end", () => {
 
-        queue.songs.shift();
+        if (!queue.loop) queue.songs.shift();
 
         if (queue.songs.length) {
           player.playTrack({ track: queue.songs[0].encoded });
@@ -82,19 +76,11 @@ module.exports = {
       await queue.player.playTrack({ track: track.encoded });
     }
 
-    if (!userChannel || userChannel.id !== botChannel?.id) {
-  return interaction.reply({
-    content: "❌ You must be in the same voice channel as the bot.",
-    ephemeral: true
-  });
-}
-
-    // return interaction.editReply(`🎵 Now playing **${track.info.title}**`);
-
     interaction.editReply({
-  content: `🎵 Now playing **${track.info.title}**`,
-  components: [createMusicControls()]
-});
+      content: `🎵 Now playing **${track.info.title}**`,
+      components: [createMusicControls()]
+    });
+
   }
 
 };
