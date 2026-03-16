@@ -30,6 +30,10 @@ client.once("clientReady", async () => {
   console.log(`Bot online: ${client.user.tag}`);
   console.log("Initializing Lavalink...");
 
+  setTimeout(() => {
+  console.log("Lavalink nodes:", client.lavalink.nodes.size);
+}, 5000);
+
   client.lavalink = createLavalink(client);
 
   giveawayManager(client);
