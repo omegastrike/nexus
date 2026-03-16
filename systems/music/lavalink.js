@@ -2,12 +2,14 @@ const { Shoukaku, Connectors } = require("shoukaku");
 
 module.exports = (client) => {
 
+  console.log("Attempting Lavalink connection...");
+
   const nodes = [
     {
-      name: "nexus",
-      url: "93.177.64.145:4827",
-      auth: "youshallnotpass",
-      secure: false
+      name: "serenetia",
+      url: "lavalinkv4.serenetia.com:443",
+      auth: "https://seretia.link/discord",
+      secure: true
     }
   ];
 
@@ -33,4 +35,5 @@ module.exports = (client) => {
   });
 
   return shoukaku;
+
 };
