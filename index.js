@@ -31,6 +31,7 @@ slashHandler(client);
 client.once("clientReady", async () => {
 
   console.log(`Bot online: ${client.user.tag}`);
+  console.log("Initializing Lavalink...");
 
   client.lavalink = createLavalink(client);
 
