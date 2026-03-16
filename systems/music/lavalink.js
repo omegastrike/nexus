@@ -6,9 +6,9 @@ module.exports = (client) => {
 
   const nodes = [
     {
-      name: "serenetia",
-      url: "lavalinkv4.serenetia.com:443",
-      auth: "https://seretia.link/discord",
+      name: "railway",
+      url: "lavalink-4-production-fb61.up.railway.app:2333",
+      auth: "@octane@7659",
       secure: true
     }
   ];
@@ -35,5 +35,4 @@ module.exports = (client) => {
   });
 
   return shoukaku;
-
 };
