@@ -5,9 +5,9 @@ module.exports = (client) => {
   const nodes = [
     {
       name: "nexus",
-      url: "lavalinkv4.serenetia.com:443",
-      auth: "https://seretia.link/discord",
-      secure: true
+      url: "93.177.64.145:4827",
+      auth: "youshallnotpass",
+      secure: false
     }
   ];
 
@@ -22,6 +22,14 @@ module.exports = (client) => {
 
   shoukaku.on("error", (name, error) => {
     console.error(`❌ Lavalink ${name} error:`, error);
+  });
+
+  shoukaku.on("close", (name, code) => {
+    console.log(`⚠ Lavalink ${name} closed: ${code}`);
+  });
+
+  shoukaku.on("disconnect", (name) => {
+    console.log(`⚠ Lavalink ${name} disconnected`);
   });
 
   return shoukaku;
