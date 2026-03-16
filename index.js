@@ -7,26 +7,23 @@ const eventHandler = require("./handlers/eventHandler");
 const slashHandler = require("./handlers/slashCommandHandler");
 const giveawayManager = require("./systems/giveaways/giveawayManager");
 const createLavalink = require("./systems/music/lavalink");
-
 const connectDB = require("./database/connect");
 
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
-  GatewayIntentBits.GuildMessages,
-  GatewayIntentBits.MessageContent,
-  GatewayIntentBits.GuildMembers,
-  GatewayIntentBits.GuildVoiceStates
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildVoiceStates
   ]
 });
 
 client.commands = new Collection();
 
-
 eventHandler(client);
 commandHandler(client);
 slashHandler(client);
-
 
 client.once("clientReady", async () => {
 
@@ -35,14 +32,11 @@ client.once("clientReady", async () => {
 
   client.lavalink = createLavalink(client);
 
-  // Start giveaway manager
   giveawayManager(client);
 
 });
 
-
 async function startBot() {
-
   try {
 
     await connectDB();
@@ -55,7 +49,6 @@ async function startBot() {
     console.error("Startup error:", error);
 
   }
-
 }
 
 startBot();
