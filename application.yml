@@ -1,7 +1,7 @@
 server:
-  port: 443
+  port: 2333
 
 lavalink:
-  server: lavalinkv4.serenetia.com
-  password: "https://seretia.link/discord"
+  server: lavalink-4-production-fb61.up.railway.app
+  password: "@octane@7659"
   Secure : true
